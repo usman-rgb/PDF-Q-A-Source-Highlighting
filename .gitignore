@@ -1,0 +1,41 @@
+# Secrets and local configuration
+.env
+.env.*
+!.env.example
+**/.env
+**/.env.*
+!**/.env.example
+
+# Python environments and caches
+.venv/
+**/.venv/
+__pycache__/
+**/__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# JavaScript dependencies and build output
+node_modules/
+**/node_modules/
+dist/
+**/dist/
+*.tsbuildinfo
+
+# Local application data and private user uploads
+uploads/
+**/uploads/
+chroma_db/
+**/chroma_db/
+*.sqlite3
+*.sqlite3-*
+**/*.sqlite3
+**/*.sqlite3-*
+
+# Local logs and OS files
+*.log
+.DS_Store
+Thumbs.db
+
+# Attachment/design scratch files
+images*.jpg
+*.webp

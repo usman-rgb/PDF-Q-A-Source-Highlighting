@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; connect-src 'self' http://localhost:8000; worker-src blob:;" />
+  <title>DocMind — Knowledge Workspace</title>
+</head>
+<body>
+  <canvas id="bg"></canvas>
+  <section id="auth-screen" class="auth-screen">
+    <div class="auth-card">
+      <div class="auth-form-panel">
+        <div class="auth-brand"><span class="brand-mark" aria-hidden="true"><span></span><span></span><span></span></span><strong>DocMind<sup>AI</sup></strong></div>
+        <div class="auth-copy">
+          <span class="eyebrow">PRIVATE KNOWLEDGE WORKSPACE</span>
+          <h1 id="auth-title">Welcome back!</h1>
+          <p id="auth-subtitle">Sign in to continue to your workspace.</p>
+        </div>
+        <form id="auth-form" class="auth-fields">
+          <label>Email address<input id="auth-email" type="email" autocomplete="email" placeholder="you@example.com" required /></label>
+          <label>Password<input id="auth-password" type="password" autocomplete="current-password" placeholder="••••••••" minlength="6" required /></label>
+          <label id="auth-name-field" hidden>Full name<input id="auth-name" type="text" autocomplete="name" placeholder="Your name" /></label>
+          <div class="auth-options"><label class="check-label"><input id="remember-me" type="checkbox" checked /> Remember me</label><button type="button" id="forgot-password" class="text-btn">Forgot password?</button></div>
+          <button class="auth-submit" type="submit" id="auth-submit">Login <span>→</span></button>
+          <p id="auth-message" class="auth-message" role="status"></p>
+        </form>
+        <p class="auth-switch"><span id="auth-switch-copy">Don't have an account?</span> <button type="button" id="auth-switch" class="text-btn">Create account</button></p>
+        <p class="auth-legal">Your documents stay private to your workspace.</p>
+      </div>
+      <div class="auth-visual">
+        <div class="visual-orb orb-one"></div><div class="visual-orb orb-two"></div>
+        <div class="visual-content"><span class="visual-label">YOUR DOCUMENTS. YOUR INTELLIGENCE.</span><h2>Turn every PDF into a conversation.</h2><p>Search, compare and understand your knowledge with cited AI answers.</p></div>
+        <div class="visual-badge">✦ <span>Secure workspace</span></div>
+      </div>
+    </div>
+  </section>
+  <div id="app" style="display:none">
+    <aside class="sidebar">
+      <div class="side-brand">
+        <span class="brand-mark" aria-hidden="true"><span></span><span></span><span></span></span>
+        <span class="brand">DocMind<sup>AI</sup></span>
+      </div>
+      <div class="profile">
+        <div class="avatar">U</div>
+        <div><strong id="workspace-name">My workspace</strong><span id="workspace-email">Personal account</span></div>
+        <span class="profile-chevron">⌄</span>
+      </div>
+      <div class="side-label">Workspace</div>
+      <nav class="side-nav" aria-label="Primary navigation">
+        <button class="side-link is-active" data-view="home"><span>⌂</span> Home</button>
+        <button class="side-link" data-view="team"><span>♙</span> Team <small>3</small></button>
+      </nav>
+      <div class="side-label">Projects</div>
+      <nav class="side-nav">
+        <button class="side-link" data-view="knowledge"><span class="folder-icon">▱</span> Knowledge base</button>
+        <button class="side-link nested" data-view="documents"><span>◦</span> Documents</button>
+        <button class="side-link nested" data-view="components"><span>◦</span> Components</button>
+        <button class="side-link nested" data-view="research"><span>◦</span> Research</button>
+      </nav>
+      <div class="side-label">Tags</div>
+      <nav class="side-nav">
+        <button class="side-link" data-view="important"><span class="tag-dot violet"></span> Important</button>
+        <button class="side-link" data-view="reviewed"><span class="tag-dot teal"></span> Reviewed</button>
+      </nav>
+      <div class="sidebar-bottom">
+        <button class="side-link" data-view="settings"><span>⚙</span> Settings</button>
+        <div class="sidebar-note"><span class="live-dot"></span><span>Workspace secured</span></div>
+      </div>
+    </aside>
+
+    <main class="workspace">
+      <header class="topbar">
+        <div class="breadcrumbs"><span>Home</span><b>/</b><strong>Knowledge base</strong></div>
+        <div class="top-actions"><button class="icon-btn" id="search-btn" aria-label="Search">⌕</button><button class="icon-btn" id="notifications-btn" aria-label="Notifications">♢</button><button class="top-avatar" id="logout-btn" aria-label="Log out">U</button></div>
+      </header>
+
+      <section id="upload">
+        <div class="page-intro">
+          <div><span class="eyebrow">KNOWLEDGE BASE</span><h1>Upload knowledge</h1><p>Bring your documents together and make them instantly searchable.</p></div>
+          <button class="primary-btn" id="upload-cta"><span>＋</span> Add new</button>
+        </div>
+        <div id="zone" role="button" tabindex="0" aria-label="Upload a PDF document">
+          <div class="zone-icon" aria-hidden="true"><span class="upload-arrow">↑</span></div>
+          <div class="zone-content"><p class="zone-h">Click to upload or drag and drop</p><p class="zone-sub">PDF documents only (max. 20MB)</p></div>
+          <input id="file-in" type="file" accept=".pdf" multiple />
+        </div>
+        <div class="content-tabs"><button class="tab is-active">All files</button><button class="tab">Recently added</button><span class="file-count" id="file-count">0 documents</span></div>
+        <div class="file-table">
+          <div class="file-head"><span>File name</span><span>Status</span><span>Added</span><span>Size</span><span></span></div>
+          <div id="file-list"><div class="file-empty">Your uploaded documents will appear here.</div></div>
+        </div>
+        <p id="status" class="status" hidden></p>
+      </section>
+
+      <section id="main" style="display:none">
+        <div class="pdf-panel">
+          <div class="panel-hdr"><div class="panel-heading"><span class="panel-kicker">DOCUMENT VIEWER</span><span id="pdf-name" class="panel-title">Document</span></div><div class="nav"><button id="prev" aria-label="Previous page">←</button><span id="page-info">1 / 1</span><button id="next" aria-label="Next page">→</button></div></div>
+          <div id="doc-shelf" class="doc-shelf" aria-label="Uploaded documents"></div>
+          <div id="pdf-wrap" class="pdf-wrap"></div>
+        </div>
+        <div id="chat" class="chat-panel">
+          <div class="panel-hdr"><div class="panel-heading"><span class="panel-kicker">AI ASSISTANT · RAG ACTIVE</span><span class="panel-title">Ask your knowledge base</span></div><span class="panel-status"><span class="live-dot"></span> Ready</span></div>
+          <div class="assistant-tools"><button class="tool-btn is-active" id="scope-current">Current document</button><button class="tool-btn" id="scope-all">Compare all</button><span class="tool-divider"></span><button class="tool-btn insight-btn" id="summary-btn">Summary</button><button class="tool-btn insight-btn" id="key-points-btn">Key points</button></div>
+          <div class="chat-feed"><div class="chat-empty"><div class="empty-icon">✦</div><strong>Your knowledge, on demand.</strong><p>Ask a question about your documents and get cited answers instantly.</p></div></div>
+          <div class="chat-bar"><input class="chat-input" type="text" maxlength="500" placeholder="Ask a question about your documents…" aria-label="Ask a question" /><button class="chat-send" disabled aria-label="Send question">↑</button></div>
+          <div class="chat-footnote">AI can make mistakes. Always verify important information.</div>
+        </div>
+      </section>
+    </main>
+  </div>
+  <div id="modal-root" class="modal-root" hidden></div>
+  <script type="module" src="/src/main.ts"></script>
+</body>
+</html>

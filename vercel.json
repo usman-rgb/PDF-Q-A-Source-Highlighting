@@ -1,0 +1,7 @@
+{
+  "version": 2,
+  "buildCommand": "npm --prefix pdf-qa-demo/frontend run build",
+  "outputDirectory": "pdf-qa-demo/frontend/dist",
+  "installCommand": "npm --prefix pdf-qa-demo/frontend install",
+  "framework": "vite"
+}
